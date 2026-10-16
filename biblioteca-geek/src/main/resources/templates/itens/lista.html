@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Biblioteca Geek</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f3f4f6;
+            margin: 0;
+            padding: 32px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 { color: #a78bfa; }
+
+        a, button {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 0;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary { background: #7c3aed; color: white; }
+        .edit { background: #2563eb; color: white; }
+        .delete { background: #dc2626; color: white; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            background: #1f2937;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #374151;
+        }
+
+        th { color: #c4b5fd; }
+
+        .message { color: #86efac; }
+        .error { color: #fca5a5; }
+
+        form { display: inline; }
+
+        @media (max-width: 650px) {
+            body { padding: 12px; }
+            table { font-size: 12px; }
+            th, td { padding: 8px; }
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <h1>Biblioteca Geek</h1>
+    <p>Gerencie seus livros, mangás e HQs.</p>
+
+    <p class="message" th:if="${mensagem}" th:text="${mensagem}"></p>
+    <p class="error" th:if="${erro}" th:text="${erro}"></p>
+
+    <a class="primary" th:href="@{/itens/novo}">+ Novo item</a>
+
+    <p th:if="${#lists.isEmpty(itens)}">
+        Sua coleção está vazia. Cadastre seu primeiro item!
+    </p>
+
+    <table th:unless="${#lists.isEmpty(itens)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Categoria</th>
+            <th>Ano</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="item : ${itens}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.titulo}"></td>
+            <td th:text="${item.categoria}"></td>
+            <td th:text="${item.ano}"></td>
+            <td th:text="${item.quantidade}"></td>
+            <td>
+                <a class="edit"
+                   th:href="@{/itens/editar/{id}(id=${item.id})}">
+                    Editar
+                </a>
+
+                <form th:action="@{/itens/excluir/{id}(id=${item.id})}"
+                      method="post"
+                      onsubmit="return confirm('Deseja excluir este item?')">
+                    <button class="delete" type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

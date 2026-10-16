@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulário - Biblioteca Geek</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f3f4f6;
+            padding: 32px;
+        }
+
+        main {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 { color: #a78bfa; }
+
+        label {
+            display: block;
+            margin-top: 18px;
+        }
+
+        input, select {
+            box-sizing: border-box;
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+        }
+
+        button, a {
+            display: inline-block;
+            margin-top: 22px;
+            padding: 12px 16px;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button { background: #7c3aed; color: white; }
+        a { background: #374151; color: white; }
+        .error { color: #fca5a5; font-size: 14px; }
+    </style>
+</head>
+
+<body>
+<main>
+    <h1 th:text="${tituloPagina}">Cadastro de item</h1>
+
+    <form th:action="@{/itens/salvar}"
+          th:object="${item}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" th:field="*{titulo}">
+        <p class="error"
+           th:if="${#fields.hasErrors('titulo')}"
+           th:errors="*{titulo}"></p>
+
+        <label for="categoria">Categoria</label>
+        <select id="categoria" th:field="*{categoria}">
+            <option value="">Selecione uma categoria</option>
+            <option value="Livro">Livro</option>
+            <option value="Mangá">Mangá</option>
+            <option value="HQ">HQ</option>
+            <option value="Outro">Outro</option>
+        </select>
+        <p class="error"
+           th:if="${#fields.hasErrors('categoria')}"
+           th:errors="*{categoria}"></p>
+
+        <label for="ano">Ano</label>
+        <input id="ano" type="number" th:field="*{ano}">
+        <p class="error"
+           th:if="${#fields.hasErrors('ano')}"
+           th:errors="*{ano}"></p>
+
+        <label for="quantidade">Quantidade</label>
+        <input id="quantidade" type="number" th:field="*{quantidade}">
+        <p class="error"
+           th:if="${#fields.hasErrors('quantidade')}"
+           th:errors="*{quantidade}"></p>
+
+        <button type="submit">Salvar item</button>
+        <a th:href="@{/itens}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>
